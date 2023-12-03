@@ -28,20 +28,23 @@ object Day02 {
 
   def parseGame(string: String): Game = parse(string, pGame(_)).get.value
 
-  private def pGame[_: P]: P[Game] =
+  private def pGame[$: P]: P[Game] =
     for {
       _ <- P("Game ")
       id <- pNumber
       _ <- P(": ")
-      cs <- pCubes.rep(min=1, sep="; ").map(_.toList)
+      cs <- pTakes
       _ <- End
     } yield (id, cs)
 
-  private def pCubes[_: P]: P[Cubes] = {
+  private def pTakes[$: P]: P[List[Cubes]] =
+    pCubes.rep(min = 1, sep = "; ").map(_.toList)
+
+  private def pCubes[$: P]: P[Cubes] = {
     (for {
       n <- pNumber
       _ <- P(" ")
-      color <- P(("red" | "green" | "blue").!)
+      color <- pRGB
     } yield (n, color))
       .rep(min=1, max=3, sep=", ")
       .map {
@@ -55,5 +58,7 @@ object Day02 {
       }
   }
 
-  private def pNumber[_: P]: P[Int] = P(CharPred(_.isDigit).rep.!).map(Integer.parseInt)
+  private def pRGB[$: P]: P[String] = P(("red" | "green" | "blue").!)
+
+  private def pNumber[$: P]: P[Int] = CharsWhile(_.isDigit, 1).!.map(_.toInt)
 }
