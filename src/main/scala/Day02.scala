@@ -3,8 +3,6 @@ package me.astynax
 import fastparse._
 import NoWhitespace._
 
-import javax.print.attribute.standard.MediaSize.Other
-
 object Day02 {
   type Input = List[Game]
   type Game = (Int, List[Cubes])
