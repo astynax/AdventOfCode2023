@@ -1,7 +1,5 @@
 package me.astynax
 
-import Pos._
-
 object Day03 {
   type Input = Map[Pos, Char]
 
