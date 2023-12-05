@@ -1,17 +1,18 @@
 package me.astynax
 
+import scala.math.pow
+
 object Day04 {
   type Input = List[Card]
 
   case class Card(id: Int, winning: Set[Int], numbers: Set[Int]) {
-    val matches: Int = winning.intersect(numbers).size
+    val matches: Int = (winning intersect numbers).size
   }
 
   object Card {
     def fromString(s: String): Card = {
       val rawId :: words = space.split(s).drop(1).toList
-      val sep = words.indexOf("|")
-      val (ws, ns) = words.splitAt(sep)
+      val (ws, ns) = words.splitAt(words.indexOf("|"))
       Card(
         id = rawId.dropRight(1).toInt,
         winning = ws.map(_.toInt).toSet,
@@ -24,15 +25,17 @@ object Day04 {
 
   def step1(cards: Input): Int =
     cards.map { c =>
-      if (c.matches > 0) scala.math.pow(2, c.matches - 1).toInt else 0
+      if (c.matches > 0) pow(2, c.matches - 1).toInt else 0
     }.sum
 
-  def step2(cards: Input): Int =
+  def step2(cards: Input): Int = {
+    val ids = cards.map { _.id }
     walk(
       cards.map { c => c.id -> c.matches }.toMap,
-      cards.map{ c => c.id -> 1 }.toMap,
-      cards.map { _.id },
+      ids.map { _ -> 1 }.toMap,
+      ids,
     ).values.sum
+  }
 
   private def walk(matches: Map[Int, Int],
                    counts: Map[Int, Int],
