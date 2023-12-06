@@ -5,6 +5,7 @@ object Ranges {
   private type R[A] = (A, A)
 
   sealed trait Relation[A]
+
   case class Disjointed[A]() extends Relation[A]
 
   case class Overlaps[A](l: R[A], i: R[A], r: R[A]) extends Relation[A]
@@ -13,19 +14,7 @@ object Ranges {
 
   case class Included[A](l: Option[R[A]], i: R[A], r: Option[R[A]]) extends Relation[A]
 
-  implicit class OrderedOps[A](that: A) {
-    def min(other: A)(implicit ord: A => Ordered[A]): A =
-      if (that <= other) that else other
-
-    def max(other: A)(implicit ord: A => Ordered[A]): A =
-      if (that >= other) that else other
-  }
-
-  implicit class NumericOps[A](that: A) {
-    def inc(implicit numeric: Numeric[A]): A = numeric.plus(that, numeric.fromInt(1))
-
-    def dec(implicit numeric: Numeric[A]): A = numeric.minus(that, numeric.fromInt(1))
-  }
+  import Implicits.NumericOps
 
   def associate[A: Numeric](r1: R[A], r2: R[A])(
     implicit
