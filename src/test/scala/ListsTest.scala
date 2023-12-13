@@ -8,4 +8,11 @@ class ListsTest extends AnyFunSuiteLike {
       Lists.splitBy(List(1, 2, 0, 3, 4))(_ == 0).take(3) == List(List(1, 2), List(3, 4))
     )
   }
+
+  test("transposing") {
+    assert(Lists.transpose(List(List(1, 2), List(3, 4), List(5, 6))) == List(
+      List(1, 3, 5),
+      List(2, 4, 6),
+    ))
+  }
 }
