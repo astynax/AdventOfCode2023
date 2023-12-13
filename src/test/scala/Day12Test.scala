@@ -45,7 +45,6 @@ class Day12Test extends AnyFunSuiteLike {
   }
 
   test("step2 on input") {
-    // need to memoize somehow
-    // assert(step2(input) == 0)
+    assert(step2(input) == 3415570893842L)
   }
 }
