@@ -19,4 +19,7 @@ object Lists {
       if (i.hasNext) Some(i.takeWhile(!by(_)).toList -> i)
       else None
     }
+
+  def pairwise[A](xs: Iterable[A]): List[(A, A)] =
+    xs.sliding(2).map { l => l.head -> l.last }.toList
 }

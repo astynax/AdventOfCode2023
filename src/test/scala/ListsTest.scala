@@ -15,4 +15,10 @@ class ListsTest extends AnyFunSuiteLike {
       List(2, 4, 6),
     ))
   }
+
+  test("pairwise") {
+    assert(Lists.pairwise("asdf") == List(
+      ('a', 's'), ('s', 'd'), ('d', 'f'),
+    ))
+  }
 }
