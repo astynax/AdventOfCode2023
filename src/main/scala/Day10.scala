@@ -10,15 +10,6 @@ object Day10 {
   def step1(input: Input): Int =
     scala.math.ceil(findLoop(input).size.toDouble / 2).toInt
 
-  @tailrec
-  private def firstSome[A, B](items: List[A])(f: A => Option[B]): Option[B] =
-    items match {
-      case x :: xs => f(x) match {
-        case None => firstSome(xs)(f)
-        case v => v
-      }
-      case _ => None
-    }
 
   lazy val rules: Map[((Int, Int), (Int, Int)), List[(Int, Int)]] = {
     val raw =
@@ -123,7 +114,7 @@ object Day10 {
     // Then .head will throw because there are no straight segments
     // to deduce the loop direction from.
     // TODO: scan from corners too!
-    val clockwise: Boolean = firstSome(directions) { case (p, d) =>
+    val clockwise: Boolean = Lists.firstSome(directions) { case (p, d) =>
       if (d == 'U' | d == 'D') {
         val s1 = scan(p, dx = -1)
         val s2 = scan(p, dx = 1)

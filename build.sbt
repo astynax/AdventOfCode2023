@@ -14,5 +14,6 @@ libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.15" % Test
 
 scalacOptions ++= Seq(
   "-Werror",
-  "-deprecation"
+  "-deprecation",
+  "-feature"
 )

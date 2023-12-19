@@ -3,6 +3,7 @@
   <component name="ScalaCompilerConfiguration">
     <profile name="sbt 1" modules="AdventOfCode2023">
       <option name="deprecationWarnings" value="true" />
+      <option name="featureWarnings" value="true" />
       <parameters>
         <parameter value="-Werror" />
       </parameters>

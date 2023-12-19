@@ -22,4 +22,14 @@ object Lists {
 
   def pairwise[A](xs: Iterable[A]): List[(A, A)] =
     xs.sliding(2).map { l => l.head -> l.last }.toList
+
+  @tailrec
+  def firstSome[A, B](items: List[A])(f: A => Option[B]): Option[B] =
+    items match {
+      case x :: xs => f(x) match {
+        case None => firstSome(xs)(f)
+        case v => v
+      }
+      case _ => None
+    }
 }
