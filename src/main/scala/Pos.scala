@@ -1,8 +1,13 @@
 package me.astynax
 
-import scala.math.abs
+import scala.math.{abs,floorMod}
 
 case class Pos(x: Int, y: Int) {
+  def bounded(width: Int, height: Int): Pos = Pos(
+    x = floorMod(x, width),
+    y = floorMod(y, height)
+  )
+
   def distanceTo(other: Pos): Int =
     abs(x - other.x) + abs(y - other.y)
 

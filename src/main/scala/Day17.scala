@@ -91,21 +91,13 @@ object Day17 {
       } yield (next, newDist, newPath)
       walk(ns.sortBy(_._2).take(10000)) // some empirically decided limit!
     }
+
     walk(ps = List(
       (Cursor(Pos(0, 0), '>', 0), 0, List()),
       (Cursor(Pos(0, 0), 'v', 0), 0, List()),
     ))
 
-    val (dist, path) = paths.minBy { _._1 }
-    (0 until input.height).foreach { y =>
-      println(
-        (0 until input.width).map { x =>
-          if (path contains Pos(x, y)) '#' else '.'
-        }.mkString
-      )
-    }
-
-    dist
+    paths.map(_._1).min
   }
 
   def decode(lines: List[String]): Input = Input(

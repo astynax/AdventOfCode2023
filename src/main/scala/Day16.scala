@@ -89,11 +89,7 @@ object Day16 {
   def decode(lines: List[String]): Stage = {
     val width = lines.head.length
     val height = lines.length
-    val map = (for {
-      (row, y) <- lines.zipWithIndex
-      (cell, x) <- row.zipWithIndex
-      if cell != '.'
-    } yield Pos(x, y) -> cell).toMap
+    val map = Map2d.fromLines(lines)
     Stage(map, width, height)
   }
 

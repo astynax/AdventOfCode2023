@@ -162,16 +162,6 @@ object Day10 {
     fill(contoured, segments).toSeq.count { case (_, c) => c == 'I' }
   }
 
-  def printOut(m: Map[Pos, Char]): Unit = {
-    val w = m.map { case (Pos(x, _), _) => x }.max
-    val h = m.map { case (Pos(_, y), _) => y }.max
-    (0 to h).foreach { y =>
-      println((0 to w).map { x =>
-        m(Pos(x, y))
-      }.mkString)
-    }
-  }
-
   def findLoop(input: Input): List[Pos] = {
     val ws = waysFrom(input.start, input.pipes)
     input.start :: walk(ws.head, input.pipes, visited = Set(input.start)).reverse
