@@ -49,14 +49,11 @@ object Day22 {
         val newPiece = piece.copy(z = topZ + 1)
         (
           newPiece :: ps,
-          newPiece.base.foldLeft(surface) { (acc, pos) =>
-            acc.updated(pos, (newPiece.id, newPiece.z + newPiece.height - 1))
+          surface ++ newPiece.base.map { pos =>
+            pos -> (newPiece.id, newPiece.z + newPiece.height - 1)
           },
-          topZIds.foldLeft(touches) { (acc, id) =>
-            acc.updatedWith(id) { v =>
-              v.map(_ + newPiece.id)
-                .orElse(Some(Set(newPiece.id)))
-            }
+          touches ++ topZIds.map { id =>
+            id -> (touches.getOrElse(id, Set.empty) + newPiece.id)
           }
         )
       }

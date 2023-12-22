@@ -13,55 +13,57 @@ object Day10 {
 
   lazy val rules: Map[((Int, Int), (Int, Int)), List[(Int, Int)]] = {
     val raw =
-    """.l.|x..
-      |.*.|x..
-      |.n.|x..
-      |
-      |.n.|..x
-      |.*.|..x
-      |.l.|..x
-      |
-      |...|...
-      |l*n|...
-      |...|xxx
-      |
-      |...|xxx
-      |n*l|...
-      |...|...
-      |
-      |...|...
-      |l*.|...
-      |.n.|x..
-      |
-      |...|xxx
-      |n*.|..x
-      |.l.|..x
-      |
-      |...|xxx
-      |.*l|x..
-      |.n.|x..
-      |
-      |...|...
-      |.*n|...
-      |.l.|..x
-      |
-      |.n.|..x
-      |l*.|..x
-      |...|xxx
-      |
-      |.l.|x..
-      |n*.|...
-      |...|...
-      |
-      |.n.|..x
-      |.*l|...
-      |...|...
-      |
-      |.l.|x..
-      |.*n|x..
-      |...|xxx
-      |""".stripMargin.lines().toScala(List)
-    val groups = Lists.splitBy(raw) {_ == ""}
+      """.l.|x..
+        |.*.|x..
+        |.n.|x..
+        |
+        |.n.|..x
+        |.*.|..x
+        |.l.|..x
+        |
+        |...|...
+        |l*n|...
+        |...|xxx
+        |
+        |...|xxx
+        |n*l|...
+        |...|...
+        |
+        |...|...
+        |l*.|...
+        |.n.|x..
+        |
+        |...|xxx
+        |n*.|..x
+        |.l.|..x
+        |
+        |...|xxx
+        |.*l|x..
+        |.n.|x..
+        |
+        |...|...
+        |.*n|...
+        |.l.|..x
+        |
+        |.n.|..x
+        |l*.|..x
+        |...|xxx
+        |
+        |.l.|x..
+        |n*.|...
+        |...|...
+        |
+        |.n.|..x
+        |.*l|...
+        |...|...
+        |
+        |.l.|x..
+        |.*n|x..
+        |...|xxx
+        |""".stripMargin.lines().toScala(List)
+    val groups = Lists.splitBy(raw) {
+      _ == ""
+    }
 
     def index(rows: List[String]) = for {
       (row, y) <- rows zip List(-1, 0, 1)
@@ -155,16 +157,22 @@ object Day10 {
         .toSet
       if (ps.isEmpty) m
       else fill(
-        ps.foldLeft(m) { (acc, p) => acc.updated(p, 'I') },
+        m ++ ps.map(_ -> 'I'),
         newSeen ++ ps
       )
     }
-    fill(contoured, segments).toSeq.count { case (_, c) => c == 'I' }
+
+    fill(contoured, segments).count {
+      case (_, c) => c == 'I'
+    }
   }
 
   def findLoop(input: Input): List[Pos] = {
-    val ws = waysFrom(input.start, input.pipes)
-    input.start :: walk(ws.head, input.pipes, visited = Set(input.start)).reverse
+    input.start :: walk(
+      pos = waysFrom(input.start, input.pipes).head,
+      map = input.pipes,
+      visited = Set(input.start)
+    ).reverse
   }
 
   @tailrec
@@ -173,7 +181,7 @@ object Day10 {
            visited: Set[Pos] = Set.empty,
            path: List[Pos] = List.empty): List[Pos] = {
     val ps = waysFrom(pos, map)
-    val p = ps.find { !visited.contains(_) }
+    val p = ps.find(!visited.contains(_))
     if (p.isDefined)
       walk(p.get, map, visited + pos, pos :: path)
     else pos :: path
@@ -201,7 +209,9 @@ object Day10 {
       (c, x) <- row.zipWithIndex
     } yield Pos(x, y) -> c).toMap
     val s = m.toSeq.find { case (_, c) => c == 'S' }.get._1
+
     def check(cs: String, p: Pos) = cs contains m.getOrElse(p, '?')
+
     val patch: Char = Map(
       (true, true, false, false) -> '|',
       (false, false, true, true) -> '-',

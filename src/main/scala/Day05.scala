@@ -53,11 +53,7 @@ object Day05 {
 
   def step1(input: Input): BigInt = {
     val (seeds, maps) = input
-    maps.foldLeft(seeds) { (s, m) =>
-      s.map(
-        m(_)
-      )
-    }.min
+    maps.foldLeft(seeds) { (s, m) => s.map(m.apply) }.min
   }
 
   def step2(input: Input): BigInt = {
