@@ -39,7 +39,7 @@ class Day10Test extends AnyFunSuiteLike {
   }
 
   test("debug printing") {
-    printOut(example.pipes)
+    Map2d.dump(example.pipes)
   }
 
   test("loop searching") {
