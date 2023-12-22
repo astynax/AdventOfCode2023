@@ -1,7 +1,5 @@
 package me.astynax
 
-import scala.annotation.tailrec
-
 object Day22 {
   type Input = List[Piece]
 

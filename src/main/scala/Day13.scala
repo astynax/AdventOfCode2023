@@ -13,7 +13,7 @@ object Day13 {
     val l = xs.head.length
     val as = xs.map(_.toArray)
     (1 until l).find { i =>
-      val p = scala.math.min(i, l - i)
+      val p = i min (l - i)
       val errors = as.map { arr =>
         (0 until p).count(j => arr(i - 1 - j) != arr(i + j))
       }.sum
