@@ -1,10 +1,11 @@
 package me.astynax
 
 object Map2d {
-  def fromLines(lines: List[String]): Map[Pos, Char] = (for {
+  def fromLines(lines: List[String],
+                good: Char => Boolean = _ != '.'): Map[Pos, Char] = (for {
     (row, y) <- lines.zipWithIndex
     (c, x) <- row.zipWithIndex
-    if c != '.'
+    if good(c)
   } yield Pos(x, y) -> c).toMap
 
   def dump[A](m: Map[Pos, A], toChar: A => Char): Unit = {
